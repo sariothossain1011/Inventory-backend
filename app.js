@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const { readdirSync } = require("fs");
 const dotenv = require('dotenv');
 require('./DB/Conn');
 dotenv.config({path:'./config.env'});
@@ -22,6 +23,10 @@ app.use(expressMongoSanitize());
 app.use(helmet());
 app.use(hpp());
 
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({limit: '50mb'}))
+
+
 // request rate limiting 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -31,5 +36,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// routes middleware
+readdirSync("./Routers").map(r => app.use("/api/v1", require(`./Routers/${r}`)))
 
 module.exports = app ;
