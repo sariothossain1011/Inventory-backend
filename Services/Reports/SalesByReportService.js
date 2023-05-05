@@ -2,13 +2,15 @@ const SalesProductModel = require('../../Models/Sales/SalesProductModel');
 
 const SaleByReportService = async(Request)=>{
     try{
+        // add the debugger statement here
+        debugger;
 
         let UserEmail=Request.headers['email'];
         let FormDate=  Request.body['FormDate']
         let ToDate=  Request.body['ToDate']
-
+        debugger
         let data=await SalesProductModel.aggregate([
-            {$match: {UserEmail:UserEmail,CreatedDate:{$gte:new Date(FormDate),$lte:new Date(ToDate)}}},
+            {$match: {UserEmail:UserEmail,CreateDate:{$gte:new Date(FormDate),$lte:new Date(ToDate)}}},
             {
                 $facet:{
                     Total:[{
@@ -26,13 +28,17 @@ const SaleByReportService = async(Request)=>{
                 }
             }
         ])
+        debugger
 
         return {status: "success", data: data}
+        debugger
 
     }
     catch (error) {
         return {status: "fail", data: error.toString()}
+        debugger
     }
 }
+
 
 module.exports = SaleByReportService

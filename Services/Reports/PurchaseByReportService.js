@@ -1,39 +1,56 @@
-const PurchaseProductModel = require('../../Models/Purchases/PurchaseProductModel')
+const PurchaseProductModel = require("../../Models/Purchases/PurchaseProductModel");
 
-const PurchaseByReportService = async(Request)=>{
-    try{
+const PurchasesReportService = async (req) => {
+  try {
+    let UserEmail = req.headers["email"];
+    let { FormDate, ToDate } = req.body;
 
-        let UserEmail=Request.headers['email'];
-        let FormDate=  Request.body['FormDate']
-        let ToDate=  Request.body['ToDate']
-
-        let data=await  PurchaseProductModel.aggregate([
-            {$match: {UserEmail:UserEmail,CreatedDate:{$gte:new Date(FormDate),$lte:new Date(ToDate)}}},
+    const data = await PurchaseProductModel.aggregate([
+      {
+        $match: {
+          UserEmail: UserEmail,
+          CreatedDate: { $gte: new Date(FormDate), $lte: new Date(ToDate) },
+        },
+      },
+      {
+        $facet: {
+          Total: [{ $group: { _id: 0, TotalAmount: { $sum: "$Total" } } }],
+          Rows: [
             {
-                $facet:{
-                    Total:[{
-                        $group:{
-                            _id:0,
-                            TotalAmount:{$sum:"$Total"}
-                        }
-                    }],
-                    Rows:[
-                        {$lookup: {from: "products", localField: "ProductID", foreignField: "_id", as: "products"}},
-                        {$unwind : "$products" },
-                        {$lookup: {from: "brands", localField: "products.BrandID", foreignField: "_id", as: "brands"}},
-                        {$lookup: {from: "categories", localField: "products.CategoryID", foreignField: "_id", as: "categories"}}
-                    ],
-                }
-            }
-        ])
+              $lookup: {
+                from: "products",
+                localField: "ProductID",
+                foreignField: "_id",
+                as: "products",
+              },
+            },
+            { $unwind: "$products" },
+            {
+              $lookup: {
+                from: "brands",
+                localField: "products.BrandID",
+                foreignField: "_id",
+                as: "brands",
+              },
+            },
+            {
+              $lookup: {
+                from: "categories",
+                localField: "products.CategoryID",
+                foreignField: "_id",
+                as: "categories",
+              },
+            },
+          ],
+        },
+      },
+    ]);
 
+    return { status: "success", data: data };
+  } catch (error) {
+    return { status: "fail", error: error.message };
+  }
+};
 
-        return {status: "success", data: data}
+module.exports = PurchasesReportService;
 
-    }
-    catch (error) {
-        return {status: "fail", data: error.toString()}
-    }
-}
-
-module.exports = PurchaseByReportService

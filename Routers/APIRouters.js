@@ -111,10 +111,10 @@ router.post('/SalesByDate', AuthMiddleware , ReportsController.SalesByDate)
 
 
 // SUMMARY API 
-router.post('/ExpensesSummary', AuthMiddleware , SummaryController.ExpensesSummary)
-router.post('/PurchaseSummary', AuthMiddleware , SummaryController.PurchaseSummary)
-router.post('/ReturnSummary', AuthMiddleware , SummaryController.ReturnSummary)
-router.post('/SalesSummary', AuthMiddleware, SummaryController.SalesSummary)
+router.get('/ExpensesSummary', AuthMiddleware , SummaryController.ExpensesSummary)
+router.get('/PurchaseSummary', AuthMiddleware , SummaryController.PurchaseSummary)
+router.get('/ReturnSummary', AuthMiddleware , SummaryController.ReturnSummary)
+router.get('/SalesSummary', AuthMiddleware, SummaryController.SalesSummary)
 
 
 module.exports = router

@@ -6,13 +6,13 @@ const UpdateServices = require('../../Services/Common/UpdateServices')
 const DeleteService = require('../../Services/Common/DeleteService')
 const DetailsByIDService = require('../../Services/Common/DetailsByIDService')
 
-// CREATE EXPNESE API 
+// CREATE EXPENSE API 
 exports.CreateExpense = async(req,res) =>{
     let Result = await CreateServices(req,DataModel)
     res.status(200).json(Result)
 }
 
-// UPDATE EXPNESE API 
+// UPDATE EXPENSE API 
 exports.UpdateExpense = async(req,res) =>{
     let Result = await UpdateServices(req,DataModel)
     res.status(200).json(Result)
