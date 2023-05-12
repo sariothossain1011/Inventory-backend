@@ -28,11 +28,8 @@ const SaleByReportService = async(Request)=>{
                 }
             }
         ])
-        debugger
 
         return {status: "success", data: data}
-        debugger
-
     }
     catch (error) {
         return {status: "fail", data: error.toString()}

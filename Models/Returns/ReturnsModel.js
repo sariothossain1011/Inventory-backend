@@ -7,6 +7,9 @@ const ReturnsSchema = new mongoose.Schema({
     CustomerID:{
         type:mongoose.Schema.Types.ObjectId,
     },
+    VatTax:{
+        type:Number
+    },
     Discount:{
         type:Number,
     },

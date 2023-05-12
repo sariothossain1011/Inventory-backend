@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req,res,next) =>{
     let Token = req.headers['token'];
-    jwt.verify(Token,process.env.SECRET_KEY,(error,decoded)=>{
+    jwt.verify(Token,"INVENTORYMANAGEMENTPROJECT",(error,decoded)=>{
         if(error){
             // console.log(Token);
             res.status(401).json({status:"unauthorized"});

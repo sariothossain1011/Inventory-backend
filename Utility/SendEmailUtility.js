@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 const SendEmailUtility =async(EmailTo,EmailText,EmailSubject)=>{
 
     let transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
+        host: 'smtp-mail.outlook.com',
         port: 587,
         secure:false,
         auth:{
-            user:process.env.EMAIL_OUTLOOK,
-            pass: process.env.PASSWORD_OUTLOOK,
+            user: 'sariothossainweb1011@outlook.com',
+            pass: 'sariot1011webtest',
         },
         tls: {
             rejectUnauthorized: false,
@@ -16,7 +16,7 @@ const SendEmailUtility =async(EmailTo,EmailText,EmailSubject)=>{
     })
     
     let mailOptions = {
-        from:'Inventory management system <sariothossain1011@outlook.com>',
+        from:' Inventory Management <sariothossainweb1011@outlook.com>',
         to: EmailTo,
         subject: EmailSubject,
         text:EmailText,
@@ -27,3 +27,10 @@ const SendEmailUtility =async(EmailTo,EmailText,EmailSubject)=>{
 
 
 module.exports = SendEmailUtility
+
+
+
+
+
+
+
